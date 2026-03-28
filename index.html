@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>John Ralf Calinawagan — Frontend Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+<style>
+/* ══════════════════════════════════════════════
+   THEME TOKENS
+══════════════════════════════════════════════ */
+[data-theme="dark"] {
+  --bg:           #080b10;
+  --surface:      #0f1318;
+  --page-bg:      #0b0f15;
+  --card:         rgba(255,255,255,0.03);
+  --border:       rgba(255,255,255,0.07);
+  --text:         #f1f5f9;
+  --muted:        #64748b;
+  --accent:       #22c55e;
+  --accent-glow:  rgba(34,197,94,0.18);
+  --accent2:      #00e6ff;
+  --accent2-glow: rgba(0,230,255,0.15);
+  --accent3:      #a855f7;
+  --accent3-glow: rgba(168,85,247,0.18);
+  --gold:         #f59e0b;
+  --red:          #ef4444;
+  --book-cover:   #070a0e;
+  --book-paper:   #0f1318;
+  --book-spine:   rgba(34,197,94,0.15);
+  --book-line:    rgba(34,197,94,0.12);
+  --shadow:       rgba(0,0,0,0.6);
+  --flip-shadow:  rgba(0,0,0,0.5);
+  --header-bg:    rgba(8,11,16,0.88);
+  --theme-icon:   "☀️";
+}
+[data-theme="light"] {
+  --bg:           #f0ede6;
+  --surface:      #faf9f4;
+  --page-bg:      #f5f2ea;
+  --card:         rgba(0,0,0,0.03);
+  --border:       rgba(0,0,0,0.09);
+  --text:         #1a1f2e;
+  --muted:        #6b7280;
+  --accent:       #16a34a;
+  --accent-glow:  rgba(22,163,74,0.14);
+  --accent2:      #0284c7;
+  --accent2-glow: rgba(2,132,199,0.14);
+  --accent3:      #7c3aed;
+  --accent3-glow: rgba(124,58,237,0.14);
+  --gold:         #d97706;
+  --red:          #dc2626;
+  --book-cover:   #1e3a1e;
+  --book-paper:   #fdfcf7;
+  --book-spine:   rgba(22,163,74,0.2);
+  --book-line:    rgba(22,163,74,0.1);
+  --shadow:       rgba(0,0,0,0.18);
+  --flip-shadow:  rgba(0,0,0,0.15);
+  --header-bg:    rgba(240,237,230,0.92);
+  --theme-icon:   "🌙";
+}
+
+/* ══════════════════════════════════════════════
+   RESET & BASE
+══════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  height:100vh; overflow:hidden;
+  transition:background 0.4s, color 0.4s;
+}
+body::after{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9999;opacity:0.5;
+}
+
+/* ══════════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════════ */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 48px;
+  background:var(--header-bg);
+  backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+  transition:background 0.4s,border-color 0.4s;
+}
+.logo-mark{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;
+  color:var(--text);letter-spacing:-0.5px;cursor:pointer;
+  transition:color 0.3s;
+}
+.logo-mark span{color:var(--accent);}
+nav{display:flex;gap:4px;align-items:center;}
+nav a{
+  font-size:0.82rem;color:var(--muted);text-decoration:none;
+  padding:6px 13px;border-radius:7px;transition:all 0.2s ease;
+  font-weight:400;cursor:pointer;position:relative;
+}
+nav a:hover{color:var(--text);background:var(--card);}
+nav a.nav-active{color:var(--accent);}
+nav a.nav-active::after{
+  content:'';position:absolute;bottom:-2px;left:13px;right:13px;
+  height:2px;background:var(--accent);border-radius:2px;
+}
+.nav-cta{
+  color:var(--bg)!important;background:var(--accent)!important;
+  font-weight:600!important;border-radius:8px!important;padding:7px 16px!important;
+  transition:opacity 0.2s!important;
+}
+.nav-cta:hover{opacity:0.85!important;}
+.nav-cta::after{display:none!important;}
+
+/* Page indicator */
+.page-indicator{
+  display:flex;align-items:center;gap:10px;
+  font-size:0.75rem;color:var(--muted);
+}
+.pi-dots{display:flex;gap:5px;}
+.pi-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--border);border:1px solid var(--border);
+  cursor:pointer;transition:all 0.3s ease;
+}
+.pi-dot.active{background:var(--accent);border-color:var(--accent);transform:scale(1.3);}
+.pi-label{font-family:'Syne',sans-serif;font-weight:700;font-size:0.7rem;}
+
+/* Theme toggle */
+.theme-btn{
+  width:38px;height:38px;border-radius:50%;
+  background:var(--card);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:1rem;transition:all 0.3s ease;
+  margin-left:8px;flex-shrink:0;
+}
+.theme-btn:hover{background:var(--accent-glow);border-color:var(--accent);}
+
+/* ══════════════════════════════════════════════
+   BOOK WORLD
+══════════════════════════════════════════════ */
+.book-world{
+  position:fixed;inset:0;
+  perspective:2400px;
+  overflow:hidden;
+}
+
+/* Spine */
+.book-spine{
+  position:fixed;left:50%;top:0;bottom:0;
+  width:3px;margin-left:-1.5px;
+  background:var(--book-spine);
+  pointer-events:none;z-index:50;
+  transition:background 0.4s;
+  display:none;/* shown only in 2-page mode; hidden on standard view */
+}
+
+/* ══════════════════════════════════════════════
+   PAGES
+══════════════════════════════════════════════ */
+.page{
+  position:absolute;inset:0;
+  background:var(--page-bg);
+  overflow-y:auto;overflow-x:hidden;
+  transform-origin:center center;
+  display:none;
+  transition:background 0.4s;
+}
+.page.active{display:block;}
+.page.flip-out-fwd{
+  display:block;
+  animation:flipOutFwd 0.45s cubic-bezier(0.55,0,1,0.45) forwards;
+}
+.page.flip-in-fwd{
+  display:block;
+  animation:flipInFwd 0.45s cubic-bezier(0,0.55,0.45,1) forwards;
+}
+.page.flip-out-back{
+  display:block;
+  animation:flipOutBack 0.45s cubic-bezier(0.55,0,1,0.45) forwards;
+}
+.page.flip-in-back{
+  display:block;
+  animation:flipInBack 0.45s cubic-bezier(0,0.55,0.45,1) forwards;
+}
+
+@keyframes flipOutFwd{
+  0%  {transform:perspective(2400px) rotateY(0deg);opacity:1;}
+  100%{transform:perspective(2400px) rotateY(-85deg);opacity:0;box-shadow:inset -40px 0 80px var(--flip-shadow);}
+}
+@keyframes flipInFwd{
+  0%  {transform:perspective(2400px) rotateY(85deg);opacity:0;}
+  100%{transform:perspective(2400px) rotateY(0deg);opacity:1;}
+}
+@keyframes flipOutBack{
+  0%  {transform:perspective(2400px) rotateY(0deg);opacity:1;}
+  100%{transform:perspective(2400px) rotateY(85deg);opacity:0;box-shadow:inset 40px 0 80px var(--flip-shadow);}
+}
+@keyframes flipInBack{
+  0%  {transform:perspective(2400px) rotateY(-85deg);opacity:0;}
+  100%{transform:perspective(2400px) rotateY(0deg);opacity:1;}
+}
+
+/* horizontal lines like a notebook */
+.page-inner{
+  min-height:100%;
+  padding:88px 60px 60px;
+  max-width:1400px;
+  margin:0 auto;
+  position:relative;
+}
+.page-inner::before{
+  content:'';
+  position:absolute;top:0;left:50px;bottom:0;width:2px;
+  background:var(--book-line);
+  pointer-events:none;
+}
+
+/* Chapter label on the page edge */
+.chapter-mark{
+  position:fixed;right:0;top:50%;transform:translateY(-50%);
+  writing-mode:vertical-rl;text-orientation:mixed;
+  font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;
+  color:var(--muted);padding:14px 8px;
+  background:var(--surface);border-left:1px solid var(--border);
+  border-radius:6px 0 0 6px;
+  transition:all 0.4s;
+}
+
+/* ══════════════════════════════════════════════
+   SHARED COMPONENTS
+══════════════════════════════════════════════ */
+.section-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:0.72rem;font-weight:600;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--accent);
+  margin-bottom:14px;
+}
+.section-tag::before{
+  content:'';display:block;width:18px;height:2px;background:var(--accent);
+}
+.section-title{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(1.8rem,3.5vw,2.8rem);
+  font-weight:800;letter-spacing:-1px;
+  line-height:1.12;margin-bottom:10px;
+}
+.section-desc{
+  color:var(--muted);max-width:520px;
+  font-size:0.92rem;font-weight:300;line-height:1.7;
+}
+
+/* ══════════════════════════════════════════════
+   PAGE 1 — HOME
+══════════════════════════════════════════════ */
+#page-home .page-inner{padding-top:0;}
+.home-wrap{
+  min-height:100vh;
+  display:flex;align-items:center;gap:70px;flex-wrap:wrap;
+  padding:88px 60px 60px 80px;
+  position:relative;overflow:hidden;
+}
+
+/* Blobs */
+.blob{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0;}
+.b1{width:480px;height:480px;background:var(--accent-glow);top:-120px;right:-80px;}
+.b2{width:360px;height:360px;background:var(--accent3-glow);bottom:-80px;left:-60px;}
+.b3{width:280px;height:280px;background:var(--accent2-glow);top:40%;right:22%;}
+
+.home-photo{
+  position:relative;z-index:1;flex-shrink:0;
+  animation:fadeUp 0.7s ease both;
+}
+.hex-frame{
+  width:260px;height:295px;
+  clip-path:polygon(50% 0%,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%);
+  background:var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  animation:glowPulse 3s ease-in-out infinite;
+  box-shadow:0 0 40px var(--accent-glow);
+}
+.hex-frame img{
+  width:96%;height:96%;
+  clip-path:polygon(50% 0%,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%);
+  object-fit:cover;object-position:center top;
+}
+.hex-frame .profile-placeholder{
+  width:96%;height:96%;
+  clip-path:polygon(50% 0%,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%);
+  background:linear-gradient(135deg,var(--surface),var(--card));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;color:var(--accent);font-size:2.5rem;
+}
+.hex-frame .profile-placeholder span{font-size:0.7rem;color:var(--muted);font-family:'Syne',sans-serif;}
+@keyframes glowPulse{
+  0%,100%{box-shadow:0 0 25px var(--accent-glow);}
+  50%{box-shadow:0 0 55px var(--accent-glow),0 0 90px rgba(34,197,94,0.1);}
+}
+
+.home-content{position:relative;z-index:1;flex:1;min-width:280px;animation:fadeUp 0.7s 0.1s ease both;}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--accent-glow);border:1px solid rgba(34,197,94,0.3);
+  border-radius:100px;padding:6px 16px;font-size:0.76rem;
+  color:var(--accent);font-weight:500;margin-bottom:22px;width:fit-content;
+}
+.badge-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.7);}}
+
+.home-h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(2.4rem,5.5vw,4.8rem);
+  font-weight:800;line-height:1.06;letter-spacing:-2px;
+}
+.home-h1 .g{color:var(--accent);}
+.home-h1 .t{color:var(--accent2);}
+.home-sub{
+  font-size:0.97rem;color:var(--muted);max-width:500px;
+  margin-top:18px;line-height:1.75;font-weight:300;
+}
+.typing-wrap{font-size:1.1rem;font-weight:500;color:var(--accent2);margin-top:8px;}
+.typing-text::after{content:'|';animation:blink 0.8s step-end infinite;color:var(--accent);}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+
+.home-actions{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap;}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--accent);color:#000;
+  font-weight:600;font-size:0.9rem;font-family:'DM Sans',sans-serif;
+  padding:11px 24px;border-radius:10px;text-decoration:none;
+  transition:all 0.25s ease;box-shadow:0 0 30px var(--accent-glow);
+}
+.btn-primary:hover{opacity:0.88;transform:translateY(-2px);}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:8px;
+  background:transparent;color:var(--text);
+  font-weight:500;font-size:0.9rem;font-family:'DM Sans',sans-serif;
+  padding:11px 24px;border-radius:10px;text-decoration:none;
+  border:1px solid var(--border);transition:all 0.25s ease;
+}
+.btn-ghost:hover{background:var(--card);border-color:rgba(255,255,255,0.15);}
+
+.hero-stats{
+  display:flex;gap:36px;margin-top:50px;flex-wrap:wrap;
+  animation:fadeUp 0.7s 0.3s ease both;
+}
+.stat{display:flex;flex-direction:column;gap:3px;}
+.stat-n{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;line-height:1;}
+.stat-n em{color:var(--accent);font-style:normal;font-size:1.2rem;}
+.stat-l{font-size:0.75rem;color:var(--muted);}
+.stat-div{width:1px;background:var(--border);align-self:stretch;}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(22px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* ══════════════════════════════════════════════
+   PAGE 2 — SERVICES
+══════════════════════════════════════════════ */
+.services-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1px;border:1px solid var(--border);border-radius:18px;
+  overflow:hidden;margin-top:44px;
+}
+.svc-card{
+  background:var(--card);padding:32px 28px;
+  display:flex;flex-direction:column;gap:14px;
+  transition:background 0.25s ease;position:relative;
+}
+.svc-card:hover{background:rgba(34,197,94,0.04);}
+.svc-card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  transform:scaleX(0);transform-origin:left;transition:transform 0.4s ease;
+}
+.svc-card:nth-child(1)::after{background:var(--accent);}
+.svc-card:nth-child(2)::after{background:var(--accent3);}
+.svc-card:nth-child(3)::after{background:var(--accent2);}
+.svc-card:nth-child(4)::after{background:var(--gold);}
+.svc-card:hover::after{transform:scaleX(1);}
+
+.svc-icon{
+  width:46px;height:46px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;font-size:1.25rem;
+}
+.ig{background:var(--accent-glow);color:var(--accent);}
+.ip{background:var(--accent3-glow);color:var(--accent3);}
+.it{background:var(--accent2-glow);color:var(--accent2);}
+.io{background:rgba(245,158,11,0.15);color:var(--gold);}
+
+.svc-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;}
+.svc-desc{font-size:0.85rem;color:var(--muted);line-height:1.65;}
+.svc-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto;padding-top:6px;}
+.tag{
+  font-size:0.7rem;font-weight:500;padding:4px 9px;
+  border-radius:100px;background:var(--card);
+  border:1px solid var(--border);color:var(--muted);
+}
+
+/* ══════════════════════════════════════════════
+   PAGES 3 & 4 — PROJECTS
+══════════════════════════════════════════════ */
+.project-layout{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:48px;align-items:start;margin-top:14px;
+}
+.project-label{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:0.7rem;font-weight:600;letter-spacing:0.5px;
+  padding:4px 12px;border-radius:100px;width:fit-content;margin-bottom:14px;
+}
+.lbl-g{background:var(--accent-glow);color:var(--accent);border:1px solid rgba(34,197,94,0.25);}
+.lbl-p{background:var(--accent3-glow);color:var(--accent3);border:1px solid rgba(168,85,247,0.25);}
+.project-name{
+  font-family:'Syne',sans-serif;font-size:2.4rem;font-weight:800;
+  letter-spacing:-1px;line-height:1;margin-bottom:8px;
+}
+.project-tagline{font-size:0.87rem;color:var(--muted);margin-bottom:20px;line-height:1.65;}
+.results{display:flex;flex-direction:column;gap:9px;margin-bottom:22px;}
+.result{display:flex;align-items:flex-start;gap:9px;font-size:0.84rem;line-height:1.55;}
+.result i{margin-top:3px;font-size:0.78rem;flex-shrink:0;}
+.cg{color:var(--accent);}.cp{color:var(--accent3);}
+.tech-row{display:flex;flex-wrap:wrap;gap:6px;}
+.tech-pill{
+  font-size:0.7rem;font-weight:500;padding:4px 11px;
+  border-radius:100px;background:var(--bg);
+  border:1px solid var(--border);color:var(--muted);
+}
+
+/* ─── SCREENSHOT GALLERY ─── */
+.gallery-wrap{position:relative;}
+.gallery-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;overflow:hidden;
+  box-shadow:0 20px 60px var(--shadow);
+  transition:border-color 0.3s;
+}
+.gallery-card:hover{border-color:rgba(34,197,94,0.3);}
+.gallery-card.purple:hover{border-color:rgba(168,85,247,0.3);}
+
+.gallery-viewport{
+  position:relative;overflow:hidden;
+  background:var(--bg);
+  aspect-ratio:16/10;
+}
+.gallery-slide{
+  position:absolute;inset:0;
+  opacity:0;transition:opacity 0.5s ease;
+}
+.gallery-slide.active{opacity:1;}
+.gallery-slide img{
+  width:100%;height:100%;
+  object-fit:cover;object-position:top center;
+  display:block;
+}
+
+/* Video slide */
+.gallery-slide.video-slide{
+  display:flex;align-items:center;justify-content:center;
+  background:var(--bg);
+}
+.gallery-slide.video-slide iframe{
+  width:100%;height:100%;border:none;
+}
+
+.gallery-controls{
+  position:absolute;top:50%;transform:translateY(-50%);
+  left:0;right:0;display:flex;justify-content:space-between;
+  padding:0 10px;pointer-events:none;
+}
+.gallery-btn{
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(0,0,0,0.55);border:1px solid rgba(255,255,255,0.15);
+  color:#fff;font-size:0.9rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:all;transition:all 0.2s ease;
+}
+.gallery-btn:hover{background:var(--accent);border-color:var(--accent);}
+
+.gallery-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px;border-top:1px solid var(--border);
+  flex-wrap:wrap;gap:8px;
+}
+.gallery-dots{display:flex;gap:5px;}
+.g-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--border);cursor:pointer;transition:all 0.25s ease;
+}
+.g-dot.active{background:var(--accent);transform:scale(1.4);}
+.gallery-card.purple .g-dot.active{background:var(--accent3);}
+.gallery-count{font-size:0.72rem;color:var(--muted);font-family:'Syne',sans-serif;font-weight:700;}
+
+/* Video button */
+.video-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);
+  color:#ef4444;border-radius:8px;padding:6px 14px;
+  font-size:0.75rem;font-weight:600;cursor:pointer;
+  transition:all 0.25s ease;font-family:'DM Sans',sans-serif;
+}
+.video-btn:hover{background:rgba(239,68,68,0.25);}
+
+/* ── VIDEO MODAL ── */
+.video-modal{
+  position:fixed;inset:0;z-index:2000;
+  background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity 0.3s;
+}
+.video-modal.open{opacity:1;pointer-events:all;}
+.video-modal-inner{
+  position:relative;width:min(860px,94vw);
+  background:var(--surface);border-radius:16px;overflow:hidden;
+  border:1px solid var(--border);
+  transform:scale(0.9);transition:transform 0.3s ease;
+}
+.video-modal.open .video-modal-inner{transform:scale(1);}
+.video-modal-inner iframe,.video-modal-inner video{
+  width:100%;aspect-ratio:16/9;display:block;border:none;
+}
+.modal-close{
+  position:absolute;top:10px;right:10px;z-index:10;
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.2);
+  color:#fff;cursor:pointer;font-size:0.85rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.2s;
+}
+.modal-close:hover{background:var(--red);}
+
+/* ── IMAGE MODAL (fullscreen) ── */
+.img-modal{
+  position:fixed;inset:0;z-index:1900;
+  background:rgba(0,0,0,0.92);backdrop-filter:blur(12px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity 0.3s;
+}
+.img-modal.open{opacity:1;pointer-events:all;}
+.img-modal img{
+  max-width:92vw;max-height:88vh;
+  border-radius:10px;object-fit:contain;
+  box-shadow:0 40px 100px rgba(0,0,0,0.6);
+}
+.img-modal-close{
+  position:absolute;top:18px;right:18px;
+  width:38px;height:38px;border-radius:50%;
+  background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);
+  color:#fff;font-size:1rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.2s;
+}
+.img-modal-close:hover{background:var(--red);}
+
+/* ══════════════════════════════════════════════
+   PAGE 5 — SKILLS
+══════════════════════════════════════════════ */
+.skills-layout{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;margin-top:14px;}
+.skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.skill-item{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:18px 20px;
+  display:flex;flex-direction:column;gap:9px;
+  transition:border-color 0.25s;
+}
+.skill-item:hover{border-color:rgba(34,197,94,0.3);}
+.sk-top{display:flex;align-items:center;justify-content:space-between;}
+.sk-name{font-size:0.84rem;font-weight:500;}
+.sk-pct{font-size:0.78rem;color:var(--muted);font-family:'Syne',sans-serif;font-weight:700;}
+.sk-bar-wrap{height:4px;background:rgba(255,255,255,0.06);border-radius:100px;overflow:hidden;}
+.sk-bar{height:100%;border-radius:100px;width:0;transition:width 1.2s cubic-bezier(0.4,0,0.2,1);}
+.sb-g{background:var(--accent);}
+.sb-t{background:var(--accent2);}
+.sb-p{background:var(--accent3);}
+.sb-o{background:var(--gold);}
+
+/* ══════════════════════════════════════════════
+   PAGE 6 — ABOUT
+══════════════════════════════════════════════ */
+.about-layout{display:grid;grid-template-columns:1.2fr 0.8fr;gap:56px;align-items:start;margin-top:14px;}
+.about-quote{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(1.35rem,2.2vw,1.95rem);
+  font-weight:700;line-height:1.4;letter-spacing:-0.5px;
+}
+.hl{color:var(--accent);}.hl2{color:var(--accent2);}
+.about-body{margin-top:22px;font-size:0.9rem;color:var(--muted);line-height:1.8;}
+.about-cards{display:flex;flex-direction:column;gap:12px;}
+.about-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;padding:20px 22px;
+  display:flex;gap:14px;align-items:flex-start;
+  transition:border-color 0.3s;
+}
+.about-card:hover{border-color:rgba(34,197,94,0.25);}
+.ac-icon{
+  width:38px;height:38px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:0.95rem;
+}
+.ac-text h4{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:700;margin-bottom:3px;}
+.ac-text p{font-size:0.8rem;color:var(--muted);line-height:1.6;}
+
+/* ══════════════════════════════════════════════
+   PAGE 7 — CONTACT
+══════════════════════════════════════════════ */
+.contact-inner{max-width:680px;margin:0 auto;text-align:center;}
+.contact-links{
+  display:flex;flex-wrap:wrap;justify-content:center;
+  gap:12px;margin-top:36px;
+}
+.contact-link{
+  display:inline-flex;align-items:center;gap:9px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:13px 20px;
+  text-decoration:none;color:var(--text);
+  font-size:0.86rem;font-weight:500;
+  transition:all 0.25s ease;
+}
+.contact-link i{color:var(--accent);font-size:0.95rem;}
+.contact-link:hover{border-color:rgba(34,197,94,0.35);background:var(--accent-glow);transform:translateY(-2px);}
+
+/* Back cover decorative */
+.back-cover-art{
+  margin-top:50px;display:flex;flex-direction:column;align-items:center;gap:10px;
+}
+.back-cover-line{
+  width:80px;height:2px;background:var(--border);border-radius:2px;
+}
+.back-cover-text{
+  font-family:'Syne',sans-serif;font-size:0.65rem;letter-spacing:3px;
+  text-transform:uppercase;color:var(--muted);
+}
+
+/* ══════════════════════════════════════════════
+   FOOTER BAR
+══════════════════════════════════════════════ */
+.page-footer{
+  position:fixed;bottom:0;left:0;right:0;z-index:400;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:9px 48px;
+  background:var(--header-bg);
+  backdrop-filter:blur(20px);
+  border-top:1px solid var(--border);
+  font-size:0.72rem;color:var(--muted);
+  transition:background 0.4s,border-color 0.4s;
+}
+.pf-left{font-family:'Syne',sans-serif;font-weight:700;color:var(--text);font-size:0.75rem;}
+.pf-right{font-size:0.68rem;}
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════ */
+@media(max-width:900px){
+  header{padding:12px 20px;}
+  nav a:not(.nav-cta){display:none;}
+  .chapter-mark{display:none;}
+  .page-indicator{display:none;}
+  .home-wrap{flex-direction:column;padding:80px 24px 60px;gap:30px;align-items:flex-start;}
+  .hex-frame{width:200px;height:226px;}
+  .page-inner{padding:80px 24px 60px;}
+  .page-inner::before{left:18px;}
+  .project-layout{grid-template-columns:1fr;}
+  .skills-layout{grid-template-columns:1fr;}
+  .about-layout{grid-template-columns:1fr;}
+  .hero-stats{gap:18px;}
+  .stat-div{display:none;}
+  .page-footer{padding:9px 20px;}
+}
+
+/* scrollbar */
+.page::-webkit-scrollbar{width:5px;}
+.page::-webkit-scrollbar-track{background:transparent;}
+.page::-webkit-scrollbar-thumb{background:var(--border);border-radius:5px;}
+</style>
+</head>
+<body>
+
+<!-- ════════════ HEADER ════════════ -->
+<header>
+  <div class="logo-mark" onclick="goTo(0)">⨛ὈᾚŊ⨍※_ÎŃŦ<span></span></div>
+  <nav>
+    <a onclick="goTo(0)" class="nav-active" data-page="0">Home</a>
+    <a onclick="goTo(1)" data-page="1">Services</a>
+    <a onclick="goTo(2)" data-page="2">QuickBorrow</a>
+    <a onclick="goTo(3)" data-page="3">QuickBite</a>
+    <a onclick="goTo(4)" data-page="4">Skills</a>
+    <a onclick="goTo(5)" data-page="5">About</a>
+    <a onclick="goTo(6)" class="nav-cta" data-page="6">Contact</a>
+    <button class="theme-btn" id="themeBtn" title="Toggle theme">☀️</button>
+  </nav>
+  <div class="page-indicator">
+    <span class="pi-label" id="piLabel">01 / 07</span>
+    <div class="pi-dots" id="piDots"></div>
+  </div>
+</header>
+
+<!-- ════════════ BOOK WORLD ════════════ -->
+<div class="book-world">
+
+  <!-- ░░ PAGE 1 — HOME ░░ -->
+  <div class="page active" id="page-0">
+    <div class="home-wrap">
+      <div class="blob b1"></div>
+      <div class="blob b2"></div>
+      <div class="blob b3"></div>
+
+      <div class="home-photo">
+        <div class="hex-frame">
+          <!-- 
+            PROFILE PHOTO SETUP:
+            Replace "YOUR_PHOTO.jpg" with your actual photo filename.
+            Put the photo file in the same folder as this HTML file.
+            Recommended: a clear solo headshot, portrait orientation.
+          -->
+          <img src="profile.png" alt="John Ralf Calinawagan"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+          />
+          <div class="profile-placeholder" style="display:none;">
+            <i class="fa-solid fa-user"></i>
+            <span>Add your photo</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="home-content">
+        <div class="hero-badge">
+          <div class="badge-dot"></div>
+          Available for Frontend Projects
+        </div>
+        <h1 class="home-h1">
+          I build web systems<br>
+          that <span class="g">actually work</span><br>
+          for real businesses<span class="t">.</span>
+        </h1>
+        <div class="typing-wrap">I'm a <span class="typing-text" id="typingEl"></span></div>
+        <p class="home-sub">
+          Junior Frontend Developer specializing in school management systems,
+          ordering platforms, and inventory tools — clean UI, smooth UX,
+          and operational results built-in from day one.
+        </p>
+        <div class="home-actions">
+          <a onclick="goTo(2)" class="btn-primary" style="cursor:pointer">
+            <i class="fa-solid fa-briefcase"></i> View Projects
+          </a>
+          <a onclick="goTo(6)" class="btn-ghost" style="cursor:pointer">
+            <i class="fa-solid fa-paper-plane"></i> Let's Talk
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-n">2<em>+</em></div>
+            <div class="stat-l">Production Systems</div>
+          </div>
+          <div class="stat-div"></div>
+          <div class="stat">
+            <div class="stat-n">4<em>+</em></div>
+            <div class="stat-l">Core Modules Built</div>
+          </div>
+          <div class="stat-div"></div>
+          <div class="stat">
+            <div class="stat-n">100<em>%</em></div>
+            <div class="stat-l">HTML · CSS · JS</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ░░ PAGE 2 — SERVICES ░░ -->
+  <div class="page" id="page-1">
+    <div class="page-inner">
+      <div class="section-tag">What I Offer</div>
+      <h2 class="section-title">Frontend solutions<br>for real operations</h2>
+      <p class="section-desc">I design and build web interfaces that make day-to-day tasks faster, easier, and more reliable — for schools, stores, and small businesses.</p>
+      <div class="services-grid">
+        <div class="svc-card">
+          <div class="svc-icon ig"><i class="fa-solid fa-book-open-reader"></i></div>
+          <div class="svc-title">Library & Book Borrowing Systems</div>
+          <p class="svc-desc">End-to-end borrowing management: catalog tracking, due-date enforcement, overdue alerts, issue reports, and data export for admin reporting. Perfect for schools that need to ditch the paper logbook.</p>
+          <div class="svc-tags">
+            <span class="tag">Book Catalog</span><span class="tag">Borrow / Return</span>
+            <span class="tag">Overdue Tracking</span><span class="tag">User Registry</span>
+            <span class="tag">CSV / JSON Export</span>
+          </div>
+        </div>
+        <div class="svc-card">
+          <div class="svc-icon ip"><i class="fa-solid fa-utensils"></i></div>
+          <div class="svc-title">Online Ordering & E-Commerce Platforms</div>
+          <p class="svc-desc">Multi-brand ordering systems with customer-facing menus, shopping carts, order tracking, and admin dashboards for real-time sales visibility. From canteen to commercial — I've got the frontend covered.</p>
+          <div class="svc-tags">
+            <span class="tag">Menu Management</span><span class="tag">Cart & Checkout</span>
+            <span class="tag">Order Processing</span><span class="tag">Admin Dashboard</span>
+            <span class="tag">Sales Analytics</span>
+          </div>
+        </div>
+        <div class="svc-card">
+          <div class="svc-icon it"><i class="fa-solid fa-users-gear"></i></div>
+          <div class="svc-title">User & Inventory Management UIs</div>
+          <p class="svc-desc">Clean, functional interfaces for managing users, products, stock levels, and records. CRUD operations, search, filtering, and status badges — built so your team can use it without a manual.</p>
+          <div class="svc-tags">
+            <span class="tag">User Registry</span><span class="tag">Inventory Tracking</span>
+            <span class="tag">Search & Filter</span><span class="tag">Role-Based Views</span>
+          </div>
+        </div>
+        <div class="svc-card">
+          <div class="svc-icon io"><i class="fa-solid fa-chart-line"></i></div>
+          <div class="svc-title">Dashboards & Analytics Interfaces</div>
+          <p class="svc-desc">Visual dashboards that turn raw data into clear decisions — live stat cards, trend charts, overdue monitors, and data export ready for Power BI or spreadsheet integration.</p>
+          <div class="svc-tags">
+            <span class="tag">Live Charts</span><span class="tag">KPI Cards</span>
+            <span class="tag">CSV / JSON Export</span><span class="tag">Power BI Ready</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ░░ PAGE 3 — PROJECT: QUICKBORROW ░░ -->
+  <div class="page" id="page-2">
+    <div class="page-inner">
+      <div class="section-tag">Featured Work — 01 / 02</div>
+      <div class="project-layout">
+        <div>
+          <div class="project-label lbl-g">
+            <i class="fa-solid fa-building-columns" style="font-size:0.65rem"></i>
+            School Library System
+          </div>
+          <div class="project-name">QuickBorrow</div>
+          <p class="project-tagline">
+            A complete library management system for Notre Dame of Midsayap College —
+            replacing paper logs with a real-time web dashboard that keeps librarians in full control.
+          </p>
+          <div class="results">
+            <div class="result">
+              <i class="fa-solid fa-circle-check cg"></i>
+              <span>Tracks borrow & return transactions with live status — Borrowed, Returned, Overdue — across all registered members.</span>
+            </div>
+            <div class="result">
+              <i class="fa-solid fa-circle-check cg"></i>
+              <span>Overdue monitoring flags late returns instantly with days-overdue counts, so no book slips through the cracks.</span>
+            </div>
+            <div class="result">
+              <i class="fa-solid fa-circle-check cg"></i>
+              <span>Book condition reports let borrowers log damage on return — records are permanently tied to borrower history.</span>
+            </div>
+            <div class="result">
+              <i class="fa-solid fa-circle-check cg"></i>
+              <span>Reports & Analytics page exports full datasets as CSV or JSON, ready for Power BI integration.</span>
+            </div>
+            <div class="result">
+              <i class="fa-solid fa-circle-check cg"></i>
+              <span>Live borrowing activity chart and book availability donut chart give administrators instant system health at a glance.</span>
+            </div>
+          </div>
+          <div class="tech-row">
+            <span class="tech-pill">HTML5</span>
+            <span class="tech-pill">CSS3</span>
+            <span class="tech-pill">JavaScript</span>
+            <span class="tech-pill">Chart.js</span>
+            <span class="tech-pill">LocalStorage</span>
+          </div>
+        </div>
+
+        <!-- SCREENSHOT GALLERY — QuickBorrow -->
+        <div class="gallery-wrap">
+          <div class="gallery-card" id="qbGallery">
+            <div class="gallery-viewport">
+              <!-- 
+                IMAGES SETUP for QuickBorrow:
+                Put these screenshot files in the same folder as this HTML file.
+                The filenames match your uploaded screenshots.
+              -->
+              <div class="gallery-slide active">
+                <img src="Screenshot 2026-03-18 202412.png" alt="QuickBorrow Dashboard"
+                     onclick="openImgModal(this.src)" style="cursor:zoom-in"/>
+              </div>
+              <div class="gallery-slide">
+                <img src="Screenshot 2026-03-18 202426.png" alt="Book Catalog"
+                     onclick="openImgModal(this.src)" style="cursor:zoom-in"/>
+              </div>
+              <div class="gallery-slide">
+                <img src="Screenshot 2026-03-18 202442.png" alt="User Registry"
+                     onclick="openImgModal(this.src)" style="cursor:zoom-in"/>
+              </div>
+              <div class="gallery-slide">
+                <img src="Screenshot 2026-03-18 202505.png" alt="Borrow / Return"
+                     onclick="openImgModal(this.src)" style="cursor:zoom-in"/>
+              </div>
+              <div class="gallery-slide">
+                <img src="Screenshot 2026-03-18 202518.png" alt="Book Condition Report"
+                     onclick="openImgModal(this.src)" style="cursor:zoom-in"/>
+              </div>
+              <div class="gallery-slide">
+                <img src="Screenshot 2026-03-18 202529.png" alt="All Transactions"
+                     onclick="openImgModal(this.src)" style="cursor:zoom-in"/>
+              </div>
+              <div class="gallery-slide">
+                <img src="Screenshot 2026-03-18 202550.png" alt="Reports & Analytics"
+                     onclick="openImgModal(this.src)" style="cursor:zoom-in"/>
+              </div>
+              <div class="gallery-slide">
+                <img src="Screenshot 2026-03-18 202600.png" alt="Overdue Monitoring"
+                     onclick="openImgModal(this.src)" style="cursor:zoom-in"/>
+              </div>
+              <!-- VIDEO SLIDE — add your YouTube embed URL or video file path below -->
+              <!--
+              <div class="gallery-slide video-slide">
+                <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allowfullscreen></iframe>
+              </div>
+              -->
+              <div class="gallery-controls">
+                <button class="gallery-btn" onclick="galleryPrev('qbGallery')">&#8249;</button>
+                <button class="gallery-btn" onclick="galleryNext('qbGallery')">&#8250;</button>
+              </div>
+            </div>
+            <div class="gallery-footer">
+              <div class="gallery-dots" id="qbDots"></div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span class="gallery-count" id="qbCount">1 / 8</span>
+                <!--
+                  VIDEO BUTTON — uncomment and add your video URL to show a video demo.
+                  Replace YOUR_YOUTUBE_URL with the actual link.
+                -->
+                <!-- <button class="video-btn" onclick="openVideoModal('https://www.youtube.com/embed/YOUR_VIDEO_ID')">
+                  <i class="fa-solid fa-play"></i> Watch Demo
+                </button> -->
+              </div>
+            </div>
+          </div>
+          <p style="font-size:0.72rem;color:var(--muted);margin-top:8px;text-align:center">
+            <i class="fa-solid fa-magnifying-glass-plus" style="color:var(--accent)"></i>
+            Click any screenshot to expand it
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ░░ PAGE 4 — PROJECT: QUICKBITE ░░ -->
+  <div class="page" id="page-3">
+    <div class="page-inner">
+      <div class="section-tag">Featured Work — 02 / 02</div>
+      <div class="project-layout">
+        <div>
+          <div class="project-label lbl-p">
+            <i class="fa-solid fa-store" style="font-size:0.65rem"></i>
+            E-Commerce Ordering System
+          </div>
+          <div class="project-name">QuickBite</div>
+          <p class="project-tagline">
+            A full ordering platform supporting multiple food brands — customers browse, order, and track;
+            admins manage products, customers, and revenue all in one place.
+          </p>
+          <div class="results">
+            <div class="result">
+              <i class="fa-solid fa-circle-check cp"></i>
+              <span>Multi-brand menu system (McDonald's, Mang Inasal, Chowking, Jollibee) with category filtering and search for fast ordering.</span>
+            </div>
+            <div class="result">
+              <i class="fa-solid fa-circle-check cp"></i>
+              <span>Admin dashboard shows total revenue, order counts, weekly trend charts, and brand-by-brand sales breakdown at a glance.</span>
+            </div>
+            <div class="result">
+              <i class="fa-solid fa-circle-check cp"></i>
+              <span>Cart, checkout, and real-time order status keep customers informed without a single page reload.</span>
+            </div>
+            <div class="result">
+              <i class="fa-solid fa-circle-check cp"></i>
+              <span>Customer accounts, order history, and profile management build loyalty and reduce support friction.</span>
+            </div>
+            <div class="result">
+              <i class="fa-solid fa-circle-check cp"></i>
+              <span>Secure login system with role-based routing — customers and admins see completely different interfaces.</span>
+            </div>
+          </div>
+          <div class="tech-row">
+            <span class="tech-pill">HTML5</span>
+            <span class="tech-pill">CSS3</span>
+            <span class="tech-pill">JavaScript</span>
+            <span class="tech-pill">Chart.js</span>
+            <span class="tech-pill">LocalStorage</span>
+          </div>
+        </div>
+
+        <!-- SCREENSHOT GALLERY — QuickBite -->
+        <div class="gallery-wrap">
+          <div class="gallery-card purple" id="qbtGallery">
+            <div class="gallery-viewport">
+              <div class="gallery-slide active">
+                <img src="1774635305558_image.png" alt="QuickBite Login"
+                     onclick="openImgModal(this.src)" style="cursor:zoom-in"/>
+              </div>
+              <div class="gallery-slide">
+                <img src="1774635403153_image.png" alt="QuickBite Admin Dashboard"
+                     onclick="openImgModal(this.src)" style="cursor:zoom-in"/>
+              </div>
+              <div class="gallery-slide">
+                <img src="1774635444094_image.png" alt="QuickBite Customer Menu"
+                     onclick="openImgModal(this.src)" style="cursor:zoom-in"/>
+              </div>
+              <!--
+                Add more QuickBite screenshots here:
+                <div class="gallery-slide">
+                  <img src="YOUR_SCREENSHOT.png" alt="..." onclick="openImgModal(this.src)" style="cursor:zoom-in"/>
+                </div>
+              -->
+              <!--
+                VIDEO SLIDE — uncomment to add a video:
+                <div class="gallery-slide video-slide">
+                  <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allowfullscreen></iframe>
+                </div>
+              -->
+              <div class="gallery-controls">
+                <button class="gallery-btn" onclick="galleryPrev('qbtGallery')">&#8249;</button>
+                <button class="gallery-btn" onclick="galleryNext('qbtGallery')">&#8250;</button>
+              </div>
+            </div>
+            <div class="gallery-footer">
+              <div class="gallery-dots" id="qbtDots"></div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span class="gallery-count" id="qbtCount">1 / 3</span>
+                <!--
+                  VIDEO BUTTON — uncomment to enable:
+                  <button class="video-btn" onclick="openVideoModal('https://www.youtube.com/embed/YOUR_VIDEO_ID')">
+                    <i class="fa-solid fa-play"></i> Watch Demo
+                  </button>
+                -->
+              </div>
+            </div>
+          </div>
+          <p style="font-size:0.72rem;color:var(--muted);margin-top:8px;text-align:center">
+            <i class="fa-solid fa-magnifying-glass-plus" style="color:var(--accent3)"></i>
+            Click any screenshot to expand it
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ░░ PAGE 5 — SKILLS ░░ -->
+  <div class="page" id="page-4">
+    <div class="page-inner">
+      <div class="section-tag">Toolkit</div>
+      <div class="skills-layout">
+        <div>
+          <h2 class="section-title">Frontend skills<br>in practice</h2>
+          <p class="section-desc" style="margin-top:10px">
+            Every tool here has been used in a live project — not just in tutorials.
+            I build for clarity, usability, and maintainability.
+          </p>
+          <div class="about-card" style="margin-top:28px;border-color:rgba(34,197,94,0.2)">
+            <div class="ac-icon ig"><i class="fa-solid fa-lightbulb"></i></div>
+            <div class="ac-text">
+              <h4>Learning-first approach</h4>
+              <p>Currently leveling up in React and REST API integration to build even more dynamic, scalable systems.</p>
+            </div>
+          </div>
+          <div class="about-card" style="margin-top:10px;border-color:rgba(0,230,255,0.2)">
+            <div class="ac-icon it"><i class="fa-solid fa-trophy"></i></div>
+            <div class="ac-text">
+              <h4>Built 2 full systems</h4>
+              <p>QuickBorrow & QuickBite — both production-ready, feature-complete, and tested under real conditions.</p>
+            </div>
+          </div>
+        </div>
+        <div class="skills-grid" id="skillsGrid">
+          <div class="skill-item">
+            <div class="sk-top"><span class="sk-name">HTML5</span><span class="sk-pct">90%</span></div>
+            <div class="sk-bar-wrap"><div class="sk-bar sb-g" data-w="90"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="sk-top"><span class="sk-name">CSS3</span><span class="sk-pct">85%</span></div>
+            <div class="sk-bar-wrap"><div class="sk-bar sb-g" data-w="85"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="sk-top"><span class="sk-name">JavaScript (ES6+)</span><span class="sk-pct">75%</span></div>
+            <div class="sk-bar-wrap"><div class="sk-bar sb-t" data-w="75"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="sk-top"><span class="sk-name">UI/UX Design</span><span class="sk-pct">70%</span></div>
+            <div class="sk-bar-wrap"><div class="sk-bar sb-t" data-w="70"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="sk-top"><span class="sk-name">Chart.js</span><span class="sk-pct">72%</span></div>
+            <div class="sk-bar-wrap"><div class="sk-bar sb-o" data-w="72"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="sk-top"><span class="sk-name">Responsive Design</span><span class="sk-pct">82%</span></div>
+            <div class="sk-bar-wrap"><div class="sk-bar sb-o" data-w="82"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="sk-top"><span class="sk-name">React (Learning)</span><span class="sk-pct">40%</span></div>
+            <div class="sk-bar-wrap"><div class="sk-bar sb-p" data-w="40"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="sk-top"><span class="sk-name">Git / Version Control</span><span class="sk-pct">60%</span></div>
+            <div class="sk-bar-wrap"><div class="sk-bar sb-p" data-w="60"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ░░ PAGE 6 — ABOUT ░░ -->
+  <div class="page" id="page-5">
+    <div class="page-inner">
+      <div class="section-tag">About Me</div>
+      <div class="about-layout">
+        <div>
+          <div class="about-quote">
+            I'm not just writing code —<br>
+            I'm building <span class="hl">systems that solve</span><br>
+            problems for <span class="hl2">real people.</span>
+          </div>
+          <p class="about-body">
+            I'm John Ralf Calinawagan, a junior frontend web developer from Notre Dame of Midsayap College.
+            I'm still early in my career — but the systems I've shipped already prove I can take a
+            problem, design a clean interface around it, and deliver something people can actually use.
+            <br><br>
+            QuickBorrow replaced a paper-based library system with a live dashboard that tracks every book,
+            every borrower, and every overdue item in real time. QuickBite gave a canteen-style ordering
+            flow with a full admin backend, sales analytics, and multi-brand support.
+            Both were built from scratch, tested under real conditions, and designed with the end user in
+            mind — not just the code reviewer.
+            <br><br>
+            If you need a frontend developer who takes ownership, communicates clearly, and ships
+            working software — let's talk.
+          </p>
+        </div>
+        <div class="about-cards">
+          <div class="about-card">
+            <div class="ac-icon ig"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div class="ac-text">
+              <h4>Education</h4>
+              <p>Notre Dame of Midsayap College — studying Web Development & Software Engineering.</p>
+            </div>
+          </div>
+          <div class="about-card">
+            <div class="ac-icon it"><i class="fa-solid fa-code"></i></div>
+            <div class="ac-text">
+              <h4>Experience</h4>
+              <p>Built 2 full-featured systems covering library management and multi-brand food ordering — both production-ready.</p>
+            </div>
+          </div>
+          <div class="about-card">
+            <div class="ac-icon ip"><i class="fa-solid fa-guitar"></i></div>
+            <div class="ac-text">
+              <h4>Beyond the screen</h4>
+              <p>Guitarist, creative thinker, and someone who genuinely enjoys figuring out how things work — in code and in life.</p>
+            </div>
+          </div>
+          <div class="about-card">
+            <div class="ac-icon io"><i class="fa-solid fa-bullseye"></i></div>
+            <div class="ac-text">
+              <h4>Goal</h4>
+              <p>To grow into a full-stack developer and keep building tools that make real operations faster and smarter.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ░░ PAGE 7 — CONTACT ░░ -->
+  <div class="page" id="page-6">
+    <div class="page-inner">
+      <div class="contact-inner">
+        <div class="section-tag" style="justify-content:center;margin:0 auto 16px">Get In Touch</div>
+        <h2 class="section-title" style="font-size:clamp(2rem,4vw,3rem)">
+          Ready to build<br>something useful?
+        </h2>
+        <p class="section-desc" style="margin:14px auto 0;text-align:center;max-width:460px">
+          Whether you need a library system, an ordering platform, or a custom web tool —
+          I'm open to projects, internships, and collaborations.
+        </p>
+        <div class="contact-links">
+          <a href="mailto:calinawaganjohnralf@gmail.com" class="contact-link">
+            <i class="fa-solid fa-envelope"></i> calinawaganjohnralf@gmail.com
+          </a>
+          <a href="tel:09354929605" class="contact-link">
+            <i class="fa-solid fa-phone"></i> 09354929605
+          </a>
+          <a href="https://facebook.com/calinawaganjohnralf.4611" target="_blank" class="contact-link">
+            <i class="fa-brands fa-facebook"></i> Facebook
+          </a>
+          <a href="https://www.tiktok.com/@johnralfy" target="_blank" class="contact-link">
+            <i class="fa-brands fa-tiktok"></i> TikTok
+          </a>
+          <a href="https://github.com/jsheinweb" target="_blank" class="contact-link">
+            <i class="fa-brands fa-github"></i> GitHub
+          </a>
+          <a href="https://youtube.com/@JohnralfCalinawagan" target="_blank" class="contact-link">
+            <i class="fa-brands fa-youtube"></i> YouTube
+          </a>
+        </div>
+        <div class="back-cover-art">
+          <div class="back-cover-line"></div>
+          <div class="back-cover-text">John Ralf Calinawagan · Junior Frontend Developer · © 2026</div>
+          <div class="back-cover-line"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end book-world -->
+
+<!-- Chapter mark (updates with page) -->
+<div class="chapter-mark" id="chapterMark">Home</div>
+
+<!-- ════════════ FOOTER BAR ════════════ -->
+<div class="page-footer">
+  <div class="pf-left">John Ralf Calinawagan</div>
+  <div>Junior Frontend Developer · Notre Dame of Midsayap College</div>
+  <div class="pf-right">HTML · CSS · JavaScript</div>
+</div>
+
+<!-- ════════════ VIDEO MODAL ════════════ -->
+<div class="video-modal" id="videoModal">
+  <div class="video-modal-inner">
+    <button class="modal-close" onclick="closeVideoModal()"><i class="fa-solid fa-xmark"></i></button>
+    <iframe id="videoFrame" src="" allowfullscreen title="Project demo video"></iframe>
+  </div>
+</div>
+
+<!-- ════════════ IMAGE MODAL ════════════ -->
+<div class="img-modal" id="imgModal" onclick="closeImgModal()">
+  <button class="img-modal-close" onclick="closeImgModal()"><i class="fa-solid fa-xmark"></i></button>
+  <img id="imgModalImg" src="" alt="Screenshot"/>
+</div>
+
+<!-- ════════════ SCRIPT ════════════ -->
+<script>
+/* ── PAGE DATA ── */
+const PAGE_DATA = [
+  { label:'Home',           chapter:'Home' },
+  { label:'Services',       chapter:'Services' },
+  { label:'QuickBorrow',    chapter:'Project 01' },
+  { label:'QuickBite',      chapter:'Project 02' },
+  { label:'Skills',         chapter:'Skills' },
+  { label:'About',          chapter:'About Me' },
+  { label:'Contact',        chapter:'Contact' },
+];
+const TOTAL = PAGE_DATA.length;
+let currentPage = 0;
+let isFlipping = false;
+
+/* ── PAGE INDICATOR DOTS ── */
+const piDots = document.getElementById('piDots');
+PAGE_DATA.forEach((_,i) => {
+  const d = document.createElement('div');
+  d.className = 'pi-dot' + (i===0?' active':'');
+  d.onclick = () => goTo(i);
+  piDots.appendChild(d);
+});
+
+function updateUI(idx){
+  /* Nav active */
+  document.querySelectorAll('nav a[data-page]').forEach(a => {
+    a.classList.toggle('nav-active', parseInt(a.dataset.page)===idx);
+  });
+  /* Dots */
+  document.querySelectorAll('.pi-dot').forEach((d,i) => d.classList.toggle('active',i===idx));
+  /* Label */
+  document.getElementById('piLabel').textContent = String(idx+1).padStart(2,'0')+' / '+String(TOTAL).padStart(2,'0');
+  /* Chapter */
+  document.getElementById('chapterMark').textContent = PAGE_DATA[idx].chapter;
+}
+
+/* ── FLIP ENGINE ── */
+function goTo(idx){
+  if(isFlipping || idx === currentPage) return;
+  isFlipping = true;
+
+  const dir = idx > currentPage ? 'fwd' : 'back';
+  const outClass = `flip-out-${dir}`;
+  const inClass  = `flip-in-${dir}`;
+
+  const curEl  = document.getElementById(`page-${currentPage}`);
+  const nextEl = document.getElementById(`page-${idx}`);
+
+  curEl.classList.add(outClass);
+
+  setTimeout(()=>{
+    curEl.classList.remove('active', outClass);
+    currentPage = idx;
+    nextEl.classList.add('active', inClass);
+    updateUI(idx);
+    /* Trigger skill bars if going to skills page */
+    if(idx === 4) animateSkills();
+
+    setTimeout(()=>{
+      nextEl.classList.remove(inClass);
+      isFlipping = false;
+    }, 450);
+  }, 430);
+}
+
+/* keyboard navigation */
+document.addEventListener('keydown', e => {
+  if(e.key === 'ArrowRight' || e.key === 'ArrowDown'){
+    if(currentPage < TOTAL-1) goTo(currentPage+1);
+  } else if(e.key === 'ArrowLeft' || e.key === 'ArrowUp'){
+    if(currentPage > 0) goTo(currentPage-1);
+  }
+});
+
+/* swipe support */
+let touchX = 0;
+document.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; });
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchX;
+  if(Math.abs(dx) > 50){
+    if(dx < 0 && currentPage < TOTAL-1) goTo(currentPage+1);
+    else if(dx > 0 && currentPage > 0) goTo(currentPage-1);
+  }
+});
+
+/* ── THEME TOGGLE ── */
+const themeBtn = document.getElementById('themeBtn');
+let theme = 'dark';
+themeBtn.onclick = () => {
+  theme = theme === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', theme);
+  themeBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+};
+
+/* ── TYPING ANIMATION ── */
+const words = ['Frontend Developer','Web Designer','Creative Builder','System Builder'];
+let wi=0,ci=0,del=false;
+function type(){
+  const el = document.getElementById('typingEl');
+  if(!el) return;
+  if(!del && ci < words[wi].length){
+    el.textContent = words[wi].substring(0,++ci);
+    setTimeout(type,110);
+  } else if(!del && ci===words[wi].length){
+    del=true; setTimeout(type,1800);
+  } else if(del && ci>0){
+    el.textContent = words[wi].substring(0,--ci);
+    setTimeout(type,65);
+  } else {
+    del=false; wi=(wi+1)%words.length; setTimeout(type,200);
+  }
+}
+type();
+
+/* ── GALLERY ── */
+const galleries = {};
+
+function initGallery(id){
+  const card = document.getElementById(id);
+  if(!card) return;
+  const slides = card.querySelectorAll('.gallery-slide:not(.gallery-controls)');
+  const dotsContainer = document.getElementById(id.replace('Gallery','Dots'));
+  const countEl = document.getElementById(id.replace('Gallery','Count'));
+  const total = slides.length;
+  let cur = 0;
+  galleries[id] = { slides, total, cur, dotsContainer, countEl };
+
+  /* build dots */
+  if(dotsContainer){
+    dotsContainer.innerHTML='';
+    slides.forEach((_,i)=>{
+      const d = document.createElement('div');
+      d.className='g-dot'+(i===0?' active':'');
+      d.onclick=()=>{ galleries[id].cur=i; showSlide(id); };
+      dotsContainer.appendChild(d);
+    });
+  }
+  if(countEl) countEl.textContent=`1 / ${total}`;
+}
+
+function showSlide(id){
+  const g = galleries[id];
+  g.slides.forEach((s,i)=>s.classList.toggle('active',i===g.cur));
+  if(g.dotsContainer){
+    g.dotsContainer.querySelectorAll('.g-dot').forEach((d,i)=>d.classList.toggle('active',i===g.cur));
+  }
+  if(g.countEl) g.countEl.textContent=`${g.cur+1} / ${g.total}`;
+}
+
+function galleryNext(id){
+  const g=galleries[id]; if(!g) return;
+  g.cur=(g.cur+1)%g.total; showSlide(id);
+}
+function galleryPrev(id){
+  const g=galleries[id]; if(!g) return;
+  g.cur=(g.cur-1+g.total)%g.total; showSlide(id);
+}
+
+initGallery('qbGallery');
+initGallery('qbtGallery');
+
+/* Auto-advance galleries */
+setInterval(()=>{ if(currentPage===2) galleryNext('qbGallery');  },4000);
+setInterval(()=>{ if(currentPage===3) galleryNext('qbtGallery'); },4500);
+
+/* ── SKILL BARS ── */
+let skillsAnimated = false;
+function animateSkills(){
+  if(skillsAnimated) return;
+  skillsAnimated = true;
+  document.querySelectorAll('.sk-bar').forEach((bar,i)=>{
+    setTimeout(()=>{
+      bar.style.width = bar.dataset.w + '%';
+    }, i*70);
+  });
+}
+
+/* ── VIDEO MODAL ── */
+function openVideoModal(url){
+  document.getElementById('videoFrame').src = url;
+  document.getElementById('videoModal').classList.add('open');
+}
+function closeVideoModal(){
+  document.getElementById('videoModal').classList.remove('open');
+  setTimeout(()=>{ document.getElementById('videoFrame').src=''; },300);
+}
+document.getElementById('videoModal').addEventListener('click',function(e){
+  if(e.target===this) closeVideoModal();
+});
+
+/* ── IMAGE MODAL ── */
+function openImgModal(src){
+  document.getElementById('imgModalImg').src = src;
+  document.getElementById('imgModal').classList.add('open');
+}
+function closeImgModal(){
+  document.getElementById('imgModal').classList.remove('open');
+}
+
+/* init UI */
+updateUI(0);
+</script>
+</body>
+</html>
